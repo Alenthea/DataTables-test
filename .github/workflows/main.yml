@@ -22,7 +22,13 @@ jobs:
           run: npm run build
 
         - name: Use the Upload Artifact GitHub Action
-          uses: actions/upload-artifact@v2
+          uses: actions/upload-pages-artifact@v2
+
+        # - name: Use the Upload Artifact GitHub Action
+        #   uses: actions/upload-artifact@v2
+        #   with: 
+        #     name: github-pages
+        #     path: build
 
     deploy:
       needs: build
