@@ -3,7 +3,7 @@ on: [push]
 permissions:
     contents: write
 jobs:
-    deploy:
+    build:
         runs-on: ubuntu-latest
     
         steps:
@@ -21,6 +21,10 @@ jobs:
         - name: Build component
           run: npm run build
 
+    deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
