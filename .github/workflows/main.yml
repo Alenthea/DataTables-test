@@ -3,7 +3,29 @@ on: [push]
 permissions:
     contents: write
 jobs:
+    test:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install
+
+      - name: Run unit tests
+        run: npm test
+      
     build:
+        needs: test
+
         runs-on: ubuntu-latest
     
         steps:
@@ -25,12 +47,6 @@ jobs:
           uses: actions/upload-pages-artifact@v2
           with:
             path: build/
-
-        # - name: Use the Upload Artifact GitHub Action
-        #   uses: actions/upload-artifact@v2
-        #   with: 
-        #     name: github-pages
-        #     path: build
 
     deploy:
       needs: build
